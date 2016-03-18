@@ -59,7 +59,7 @@ module.exports = function(grunt) {
             env = process.env,
             ab;
 
-        args.push("appbuilder");
+        args.push(path.resolve('node_modules/.bin/appbuilder'));
         args.push("build");
 
         //Add Platform
