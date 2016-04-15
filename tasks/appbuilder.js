@@ -21,6 +21,7 @@ module.exports = function(grunt) {
             debug: true,
             download: true,
             companion: false,
+            livesync: false,
             certificate: '',
             provision: '',
             destination: '',
@@ -60,46 +61,52 @@ module.exports = function(grunt) {
             ab;
 
         args.push(path.resolve('node_modules/.bin/appbuilder'));
-        args.push("build");
 
-        //Add Platform
-        if(!options.platform) {
-            grunt.log.errorlns('No platform specified');
-            return done(false);
+        if (options.livesync) {
+            args.push("livesync");
+            args.push("cloud");
         } else {
-            args.push(options.platform);
-        }
+            args.push("build");
 
-        if(project) {
-            args.push("--path");
-            args.push(JSON.stringify(project));
-        }
-
-        if(options.debug) {
-            args.push("--debug");
-        } else {
-            args.push("--release");
-        }
-
-        if(options.download) {
-            args.push("--download");
-
-            if(dest) {
-                args.push("--save-to");
-                args.push(JSON.stringify(dest));
+            //Add Platform
+            if(!options.platform) {
+                grunt.log.errorlns('No platform specified');
+                return done(false);
+            } else {
+                args.push(options.platform);
             }
-        } else if(options.companion) {
-            args.push("--companion");
-        }
 
-        if(options.certificate) {
-            args.push("--certificate");
-            args.push(JSON.stringify(options.certificate));
-        }
+            if(project) {
+                args.push("--path");
+                args.push(JSON.stringify(project));
+            }
 
-        if(options.provision) {
-            args.push("--provision");
-            args.push(JSON.stringify(options.provision));
+            if(options.debug) {
+                args.push("--debug");
+            } else {
+                args.push("--release");
+            }
+
+            if(options.download) {
+                args.push("--download");
+
+                if(dest) {
+                    args.push("--save-to");
+                    args.push(JSON.stringify(dest));
+                }
+            } else if(options.companion) {
+                args.push("--companion");
+            }
+
+            if(options.certificate) {
+                args.push("--certificate");
+                args.push(JSON.stringify(options.certificate));
+            }
+
+            if(options.provision) {
+                args.push("--provision");
+                args.push(JSON.stringify(options.provision));
+            }
         }
 
         var command = args.join(' ');
