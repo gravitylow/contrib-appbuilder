@@ -76,11 +76,6 @@ module.exports = function(grunt) {
                 args.push(options.platform);
             }
 
-            if(project) {
-                args.push("--path");
-                args.push(JSON.stringify(project));
-            }
-
             if(options.debug) {
                 args.push("--debug");
             } else {
@@ -107,6 +102,11 @@ module.exports = function(grunt) {
                 args.push("--provision");
                 args.push(JSON.stringify(options.provision));
             }
+        }
+
+        if(project) {
+            args.push("--path");
+            args.push(JSON.stringify(project));
         }
 
         var command = args.join(' ');
